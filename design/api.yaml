@@ -1,0 +1,70 @@
+swagger: "2.0"
+info:
+  description: "A send email API server for interfacing with the Zoho Mail API"
+  version: "1.0.0"
+  title: "Zoho Send Email API"
+host: "localhost:3000"
+basePath: "/api/v1"
+tags:
+- name: "General"
+schemes:
+- "http"
+paths:
+  /message:
+    post:
+      tags:
+      - "General"
+      summary: "Send an email message"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "New message content"
+        required: true
+        schema:
+          $ref: "#/definitions/MessageInfo"
+      responses:
+        200:
+          description: "Queued to send"
+        400:
+          description: "Invalid input provided"
+          schema:
+            $ref: "#/definitions/ErrorPacket"
+        401:
+          description: "Not authorized to access the server"
+      security:
+      - api_key: []
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+definitions:
+  ErrorPacket:
+    type: "object"
+    required:
+    - "message"
+    properties:
+      message:
+        type: "string"
+        example: "You must enter your name."
+  MessageInfo:
+    type: "object"
+    required:
+    - "name"
+    - "email"
+    - "body"
+    properties:
+      name:
+        type: "string"
+        example: "Jim Handles"
+      email:
+        type: "string"
+        example: "jim.handle@gmail.com"
+      body:
+        type: "string"
+        description: "base64 encoded message body"
+        example: "UmVhbCBzaG9ydCBtZXNzYWdl"
