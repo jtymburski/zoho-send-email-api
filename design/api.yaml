@@ -14,7 +14,7 @@ paths:
     post:
       tags:
       - "General"
-      summary: "Send an email message"
+      summary: "Send an HTML email message"
       consumes:
       - "application/json"
       produces:
@@ -50,21 +50,30 @@ definitions:
     properties:
       message:
         type: "string"
-        example: "You must enter your name."
+        example: "You must provide an email address"
   MessageInfo:
     type: "object"
     required:
-    - "name"
-    - "email"
-    - "body"
+    - "from"
+    - "to"
+    - "content"
     properties:
-      name:
+      from:
         type: "string"
-        example: "Jim Handles"
-      email:
+        example: "jim@email.com"
+      to:
         type: "string"
-        example: "jim.handle@gmail.com"
-      body:
+        example: "britney@domain.com"
+      cc:
         type: "string"
-        description: "base64 encoded message body"
-        example: "UmVhbCBzaG9ydCBtZXNzYWdl"
+        example: "boss@corporate.com"
+      bcc:
+        type: "string"
+        example: "hidden@tracking.com"
+      subject:
+        type: "string"
+        example: "Friendly Reminder for Tomorrow"
+      content:
+        type: "string"
+        description: "HTML content body. No new line characters permitted"
+        example: "Some serious content<br>Woah, does this make sense?"
