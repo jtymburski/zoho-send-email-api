@@ -5,7 +5,7 @@ module.exports = (app) => {
   /**
    * routes
    */
-  router.use('/sample', require('./sample/controller')(app));
+  router.use('/message', require('./message/controller')(app));
 
   /**
    * default root route for api
