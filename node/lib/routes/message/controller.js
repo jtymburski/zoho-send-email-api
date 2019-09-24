@@ -8,7 +8,7 @@ module.exports = (app) => {
 
   controller.route('/')
     // send a message
-    .post(app.auth, ModelInfo.validate, send);
+    .post(ModelInfo.validate, send);
 
   return controller;
 };

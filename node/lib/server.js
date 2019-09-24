@@ -52,8 +52,8 @@ module.exports = {
                           { prettyPrint: true, level: consoleLogLevel }));
     }
 
-    // auth middleware used throughout
-    app.auth = require('./auth/verify')(app);
+    // all requests are authenticated
+    app.use(require('./auth/verify')(app));
 
     // configure API routes
     require('./routes')(app);
