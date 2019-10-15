@@ -26,6 +26,24 @@ function validate(req, res, next) {
                       'to parameter is required and must be a valid email'));
   }
 
+  // cc email
+  const cc = req.body.cc;
+  if (cc && !EmailValidator.validate(cc)) {
+    return next(new HttpError(400, 'cc parameter must be a valid email'));
+  }
+
+  // bcc email
+  const bcc = req.body.bcc;
+  if (bcc && !EmailValidator.validate(bcc)) {
+    return next(new HttpError(400, 'bcc parameter must be a valid email'));
+  }
+
+  // subject
+  const subject = req.body.subject;
+  if (subject && !isString(subject)) {
+    return next(new HttpError(400, 'subject parameter must be a string'));
+  }
+
   // content
   const content = req.body.content;
   if (!content || !isString(content)) {
