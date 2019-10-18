@@ -64,9 +64,8 @@ function test(chai, app, config) {
     it('it should fail on invalid \'from\' address', (done) => {
       request(chai, app, config, config.AUTH_KEY)
         .send({
-          from: 'thisisarealemail@hatsoff',
-          to: goodInput.to,
-          content: goodInput.content
+          ...goodInput,
+          from: 'thisisarealemail@hatsoff'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -91,9 +90,49 @@ function test(chai, app, config) {
     it('it should fail on invalid \'to\' address', (done) => {
       request(chai, app, config, config.AUTH_KEY)
         .send({
-          from: goodInput.from,
-          to: 'woahrealhats@vroom@tomato.com',
-          content: goodInput.content
+          ...goodInput,
+          to: 'woahrealhats@vroom@tomato.com'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+
+    // Invalid 'cc' address
+    it('it should fail on invalid \'cc\' address', (done) => {
+      request(chai, app, config, config.AUTH_KEY)
+        .send({
+          ...goodInput,
+          cc: 'tinkleship@hat$s.com'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+
+    // Invalid 'bcc' address
+    it('it should fail on invalid \'bcc\' address', (done) => {
+      request(chai, app, config, config.AUTH_KEY)
+        .send({
+          ...goodInput,
+          bcc: 'kevin..smith@emerg.net'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+
+    // Invalid subject
+    it('it should fail on invalid \'subject\'', (done) => {
+      request(chai, app, config, config.AUTH_KEY)
+        .send({
+          ...goodInput,
+          subject: {
+            text: "Hello World"
+          }
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -118,8 +157,7 @@ function test(chai, app, config) {
     it('it should fail on invalid \'content\'', (done) => {
       request(chai, app, config, config.AUTH_KEY)
         .send({
-          from: goodInput.from,
-          to: goodInput.to,
+          ...goodInput,
           content: 14239
         })
         .end((err, res) => {
@@ -132,8 +170,7 @@ function test(chai, app, config) {
     it('it should fail on empty \'content\'', (done) => {
       request(chai, app, config, config.AUTH_KEY)
         .send({
-          from: goodInput.from,
-          to: goodInput.to,
+          ...goodInput,
           content: ''
         })
         .end((err, res) => {
