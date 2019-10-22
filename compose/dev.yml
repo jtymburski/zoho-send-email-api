@@ -1,27 +1,33 @@
 version: "3"
 services:
+  # WORKER QUEUE
+  queue:
+    image: redis:alpine
+    restart: always
   # NODE API
   node:
     image: node:lts-alpine
     user: node
     restart: always
+    depends_on:
+      - queue
     working_dir: /home/node/app
     volumes:
       - ./node:/home/node/app
+    environment:
+      QUEUE_HOST: queue
     ports:
       - 3000:3000
     command: "npm run dev"
+  # API DESIGN
   swagger:
     image: swaggerapi/swagger-ui
     restart: always
     depends_on:
       - node
-    ports:
-      - 8081:8080
     volumes:
       - ./design:/data
     environment:
       SWAGGER_JSON: /data/api.yaml
-  # WORKER QUEUE
-  queue:
-    image: redis:alpine
+    ports:
+      - 8081:8080
