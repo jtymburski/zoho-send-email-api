@@ -2,7 +2,7 @@ version: "3"
 services:
   # NODE API
   node:
-    image: "node:lts-alpine"
+    image: node:lts-alpine
     user: node
     restart: always
     working_dir: /home/node/app
@@ -22,6 +22,6 @@ services:
       - ./design:/data
     environment:
       SWAGGER_JSON: /data/api.yaml
-volumes:
-  dbdata:
-    driver: local
+  # WORKER QUEUE
+  queue:
+    image: redis:alpine
