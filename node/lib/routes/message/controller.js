@@ -1,3 +1,5 @@
+const uuidv4 = require('uuid/v4');
+
 const ModelInfo = require('./model/info');
 
 module.exports = (app) => {
@@ -18,5 +20,9 @@ module.exports = (app) => {
  * @in MessageInfo packet model
  */
 function send(req, res, next) {
-  throw new Error('Message send POST functionality not implemented');
+
+  const requestId = uuidv4();
+  FileController.saveObject(requestId, req.body)
+    .then(() => Promise.reject('todo - add uuid to cache queue'))
+    .catch(err => HttpHelper.processError(err, next));
 }

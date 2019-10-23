@@ -7,6 +7,7 @@ const app = require('express')();
 const { combine, timestamp, printf, splat } = winston.format;
 
 global.__root = __dirname + '/';
+global.FileController = require('./helper/FileController');
 global.HttpError = require('./helper/HttpError');
 global.HttpHelper = require('./helper/HttpHelper');
 global.LogRequest = require('./helper/LogRequest');
