@@ -184,8 +184,9 @@ function test(chai, app, config) {
       request(chai, app, config, config.AUTH_KEY)
         .send(goodInput)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(202);
           // TODO: More validation if it was added to the queue
+          throw new Error('todo - validate item added to queue and processed');
           done();
         });
     });

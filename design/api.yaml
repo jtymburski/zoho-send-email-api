@@ -27,7 +27,7 @@ paths:
         schema:
           $ref: "#/definitions/MessageInfo"
       responses:
-        200:
+        202:
           description: "Queued to send"
         400:
           description: "Invalid input provided"
