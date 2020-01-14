@@ -56,14 +56,14 @@ module.exports = {
     // all requests are authenticated
     app.use(require('./auth/verify')(app));
 
-    // configure API routes
-    require('./routes')(app);
-    app.port = process.env.PORT || 3000;
-
     // activate the queue
     return require('./queue/connect').connectAsync(app.config)
       .then((client) => {
-        app.queueClient = client;
+        app.redisClient = client;
+
+        // configure API routes
+        require('./routes')(app);
+        app.port = process.env.PORT || 3000;
 
         // try to find ssl key and chain
         return Promise.all([ readFile('./ssl/server.key'),
