@@ -60,10 +60,16 @@ module.exports = {
     require('./routes')(app);
     app.port = process.env.PORT || 3000;
 
-    // try to find ssl key and chain
-    return Promise.all([ readFile('./ssl/server.key'),
-                         readFile('./ssl/server.crt'),
-                         readFile('./ssl/server.chain') ])
+    // activate the queue
+    return require('./queue/connect').connectAsync(app.config)
+      .then((client) => {
+        app.queueClient = client;
+
+        // try to find ssl key and chain
+        return Promise.all([ readFile('./ssl/server.key'),
+                             readFile('./ssl/server.crt'),
+                             readFile('./ssl/server.chain') ])
+      })
       .then((sslInfo) => {
         // decide between HTTPS and HTTP, based on if the ssl key was found
         const key = sslInfo[0];
@@ -85,7 +91,7 @@ module.exports = {
         });
       });
   },
-  // FOR TESTING
+  // VISIBLE FOR TESTING
   app: app
 };
 
