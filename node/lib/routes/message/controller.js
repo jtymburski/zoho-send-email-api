@@ -1,6 +1,7 @@
 const uuidv4 = require('uuid/v4');
 
 const ModelInfo = require('./model/info');
+const ModelResult = require('./model/result');
 let QueueController = null;
 
 module.exports = (app) => {
@@ -25,10 +26,10 @@ module.exports = (app) => {
  * @in MessageInfo packet model
  */
 function send(req, res, next) {
-
   const requestId = uuidv4();
+
   FileController.saveObject(requestId, req.body)
     .then(() => QueueController.addRequest(requestId))
-    .then(() => Promise.reject('todo - return uuid success response'))
+    .then(() => HttpHelper.success(req, res, 202, ModelResult.from(requestId)))
     .catch(err => HttpHelper.processError(err, next));
 }

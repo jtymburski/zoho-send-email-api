@@ -29,6 +29,8 @@ paths:
       responses:
         202:
           description: "Queued to send"
+          schema:
+            $ref: "#/definitions/MessageResult"
         400:
           description: "Invalid input provided"
           schema:
@@ -77,3 +79,11 @@ definitions:
         type: "string"
         description: "HTML content body. No new line characters permitted"
         example: "Some serious content<br>Woah, does this make sense?"
+  MessageResult:
+    type: "object"
+    required:
+    - "id"
+    properties:
+      id:
+        type: "string"
+        example: "de06582d-010c-4b48-a458-601a819c3945"

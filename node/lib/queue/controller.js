@@ -1,6 +1,6 @@
-let RedisClient = null;
-
 const REQUEST_POOL = "RequestPool";
+
+let RedisClient = null;
 
 module.exports = (app) => {
   if (!app) throw new Error('Missing parameter: \'app\' not provided');
