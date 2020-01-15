@@ -40,6 +40,7 @@ function connectAsync(config) {
 
       if (initialResponse) {
         initialResponse = false;
+        client.quit();
         reject(err);
       }
     })
